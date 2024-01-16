@@ -8,14 +8,25 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var viewModel = ViewModel()
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        ZStack {
+            VStack {
+                ForEach($viewModel.items.configs, id: \.self) { $item in
+                    ConfigCell(item: $item)
+                        .padding()
+                }
+                ForEach(viewModel.items.configs, id: \.self) {item in
+                    HStack {
+                        Text(item.title)
+                        Text("configs => ")
+                        Text("option: \(item.optionAmount)")
+                        Text(" | ")
+                        Text("toggle: \(item.toggleAmount.description)")
+                    }
+                }
+            }
         }
-        .padding()
     }
 }
 
